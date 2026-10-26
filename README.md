@@ -192,6 +192,13 @@
 - **UI・体験の改善**：ITが苦手な人でも迷わない画面、最低限のアクセシビリティ
 - **機能以外の工夫**：日報テンプレートの書き方ガイドを用意し、要約しやすい日報を書く習慣をつくる
 
+### 本リリース以降の全体像
+
+MVPでは `teams` / `users` / `daily_reports` の3テーブルだけを作る。
+下図の招待・メモ・コメント・通知・AI列は本リリースで追加する。
+
+[![Image from Gyazo](https://i.gyazo.com/e3916ff75a63fe6194c041db1de5fd49.png)](https://gyazo.com/e3916ff75a63fe6194c041db1de5fd49)
+
 ---
 
 ## 10. 技術スタック
@@ -302,8 +309,6 @@ erDiagram
         datetime updated_at
     }
 ```
-
-[![Image from Gyazo](https://i.gyazo.com/e3916ff75a63fe6194c041db1de5fd49.png)](https://gyazo.com/e3916ff75a63fe6194c041db1de5fd49)
 
 - `daily_reports` は `[user_id, report_date]` にユニーク制約をつけ、1人1日1件にする
 - `needs_attention` は提出時に「`trouble` に記入がある、または `condition` が2以下」で自動的に `true` になり、上司が手動で切り替えることもできる
