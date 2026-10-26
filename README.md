@@ -227,3 +227,6 @@
 - **不安な点と対策**
   - カレンダー表示 → simple_calendar を使い、まず「日付ごとの提出数を出すだけ」の最小形から作る
   - 上司／部下の権限の分け方 → `users.role`（enum）で役割を持たせ、コントローラの `before_action` で上司専用画面を制限する。日報は `team_id` で絞り込み、他チームのデータが見えないようにする# -
+
+ER図
+  [![Image from Gyazo](https://i.gyazo.com/e3916ff75a63fe6194c041db1de5fd49.png)](https://gyazo.com/e3916ff75a63fe6194c041db1de5fd49)
