@@ -1,0 +1,12 @@
+ja:
+  activerecord:
+    models:
+      daily_report: 日報
+    attributes:
+      daily_report:
+        report_date: 日付
+        done: 今日やったこと
+        trouble: 困っていること
+        plan: 明日やること
+        condition: 調子
+        
