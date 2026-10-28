@@ -9,4 +9,5 @@ ja:
         trouble: 困っていること
         plan: 明日やること
         condition: 調子
-        
+      user:
+        email: メールアドレス  
