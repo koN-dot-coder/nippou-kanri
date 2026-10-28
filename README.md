@@ -768,14 +768,15 @@ docker compose up
 | ブランチ | 用途 |
 | --- | --- |
 | `main` | 常に動く状態。直接pushしない |
+| `development` | 開発用（既定ブランチ）。PRはここに出す。直接pushしない |
 | `feature/◯◯` | 機能追加（例：`feature/daily-report-form`） |
 | `fix/◯◯` | バグ修正（例：`fix/calendar-date-offset`） |
 
 ### 開発の流れ
 
-1. GitHub Projects でIssueを Doing に移し、担当者を自分にする
-2. `main` から `feature/◯◯` ブランチを切る
-3. 実装し、RuboCop を通してからPRを作成（PR本文に `close #Issue番号` を書く）
+1. GitHub Projects でIssueを In Progress に移し、担当者を自分にする
+2. `development` から `feature/◯◯` ブランチを切る
+3. 実装し、RuboCop を通してから `development` 向けにPRを作成（PR本文に `close #Issue番号` を書く）し、Issueを In Review に移す
 4. 実装者以外の1人がレビューしてApprove
 5. 実装者がマージし、Issueを Done に移す
 
@@ -787,7 +788,7 @@ docker compose up
 
 ### タスク管理
 
-GitHub Projects で To Do / Doing / Review / Done の4列で管理します。
+GitHub Projects で Todo / In Progress / In Review / Done の4列で管理します。
 
 ### 定例
 
