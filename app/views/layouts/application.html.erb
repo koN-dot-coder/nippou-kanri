@@ -20,24 +20,20 @@
   <body>
     <header class="site-header">
       <div class="header-inner">
-        <%# TODO(B-2): "#" を root_path に差し替える %>
-        <%= link_to "ひとめ日報", "#", class: "app-name" %>
+        <%= link_to "ひとめ日報", root_path, class: "app-name" %>
 
-        <%# TODO(A-2): A-2 マージ後は「user_signed_in?」だけにする（Devise 設定前は user_signed_in? が無いため） %>
-        <% if respond_to?(:user_signed_in?) && user_signed_in? %>
+        <% if user_signed_in? %>
           <% if current_user.manager? %>
             <span class="role-label"><span class="icon icon-manager" aria-hidden="true"></span>上司の画面</span>
-            <%# TODO(B-2): "#" をそれぞれ daily_reports_path / calendar_path に差し替える %>
             <% nav_links = [
-              ["要約一覧", "#", "icon-list"],
-              ["提出カレンダー", "#", "icon-calendar"]
+              ["要約一覧", daily_reports_path, "icon-list"],
+              ["提出カレンダー", calendar_path, "icon-calendar"]
             ] %>
           <% else %>
             <span class="role-label"><span class="icon icon-member" aria-hidden="true"></span>部下の画面</span>
-            <%# TODO(B-2): "#" をそれぞれ new_daily_report_path / my_daily_reports_path に差し替える %>
             <% nav_links = [
-              ["日報を書く", "#", "icon-pencil"],
-              ["自分の日報", "#", "icon-list"]
+              ["日報を書く", new_daily_report_path, "icon-pencil"],
+              ["自分の日報", my_daily_reports_path, "icon-list"]
             ] %>
           <% end %>
 
