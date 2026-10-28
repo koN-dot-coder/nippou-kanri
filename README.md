@@ -777,9 +777,9 @@ docker compose up
 
 ### 開発の流れ
 
-1. GitHub Projects でIssueを Doing に移し、担当者を自分にする
+1. GitHub Projects でIssueを In Progress に移し、担当者を自分にする
 2. `development` から `feature/◯◯` ブランチを切る
-3. 実装し、RuboCop を通してからPRを作成（マージ先は `development`。PR 本文に `Closes #Issue番号` を書く）
+3. 実装し、RuboCop を通してからPRを作成（マージ先は `development`。PR 本文に `Closes #Issue番号` を書く）し、Issueを In Review に移す
 4. 実装者以外の1人がレビューしてApprove
 5. 実装者がマージし、Issueを Done に移す
 
@@ -791,7 +791,7 @@ docker compose up
 
 ### タスク管理
 
-GitHub Projects で To Do / Doing / Review / Done の4列で管理します。
+GitHub Projects で Todo / In Progress / In Review / Done の4列で管理します。
 
 ### 定例
 
