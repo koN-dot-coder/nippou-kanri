@@ -633,8 +633,8 @@ params.require(:daily_report).permit(:report_date, :done, :trouble, :plan, :cond
 config.time_zone = "Tokyo"            # Date.current を日本の日付にする（「今日」がずれない）
 config.i18n.default_locale = :ja
 ```
-
-- Gem：`devise`, `devise-i18n`, `rails-i18n`, `simple_calendar`, `rubocop-rails`（development）
+- Gem：`devise`, `devise-i18n`, `rails-i18n`, `simple_calendar`
+- 開発：`rubocop-rails-omakase`（RuboCop / Rails 用ルール）
 - 日本語の項目名は `config/locales/ja.yml` に書く（B）
 
 ```yaml
