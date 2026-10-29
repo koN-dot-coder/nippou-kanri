@@ -4,5 +4,5 @@ class My::DailyReportsController < ApplicationController
   def index
    @daily_reports =
   DailyReport.none
- end
+  end
 end
