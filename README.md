@@ -633,8 +633,8 @@ params.require(:daily_report).permit(:report_date, :done, :trouble, :plan, :cond
 config.time_zone = "Tokyo"            # Date.current を日本の日付にする（「今日」がずれない）
 config.i18n.default_locale = :ja
 ```
-
-- Gem：`devise`, `devise-i18n`, `rails-i18n`, `simple_calendar`, `rubocop-rails`（development）
+- Gem：`devise`, `devise-i18n`, `rails-i18n`, `simple_calendar`
+- 開発：`rubocop-rails-omakase`（RuboCop / Rails 用ルール）
 - 日本語の項目名は `config/locales/ja.yml` に書く（B）
 
 ```yaml
@@ -718,8 +718,9 @@ cp .env.example .env
 # 3. イメージをビルド
 docker compose build
 
-# 4. データベースを作成し、マイグレーションとデモデータの投入
-docker compose run --rm web bin/rails db:create db:migrate db:seed
+# 4. データベースを作成し、マイグレーション
+docker compose run --rm web bin/rails db:create db:migrate
+# db:seed は B-5 以降（db/seeds.rb で日報デモを入れるまで不要）
 
 # 5. 起動
 docker compose up
@@ -728,6 +729,8 @@ docker compose up
 起動後、ブラウザで http://localhost:3000 を開きます。
 
 ### デモ用アカウント（db/seeds.rb で作成）
+
+> **MVP の途中（A-2 まで）:** `db/seeds.rb` はまだ空です。ログイン確認は `docker compose exec web bin/rails c` で User を作るか、各 PR の「確認方法」を参照してください。下表は **B-5 以降** の想定です。
 
 | 役割 | メールアドレス | パスワード |
 | --- | --- | --- |
@@ -748,8 +751,9 @@ docker compose exec web bin/rails c
 # RuboCop（PRを出す前に実行）
 docker compose exec web bundle exec rubocop
 
-# DBを作り直す
-docker compose run --rm web bin/rails db:reset
+# DBを作り直す（migration から作り直す。PR で migration を直したあとなど）
+docker compose exec web bin/rails db:drop db:create db:migrate
+docker compose exec web bin/rails db:test:prepare   # テスト実行前
 ```
 
 ### Gemを追加したとき
@@ -767,15 +771,15 @@ docker compose up
 
 | ブランチ | 用途 |
 | --- | --- |
-| `main` | 常に動く状態。直接pushしない |
-| `feature/◯◯` | 機能追加（例：`feature/daily-report-form`） |
+| `development` | 統合ブランチ（GitHub の default）。常に動く状態。**直接 push しない** |
+| `feature/◯◯` | 機能追加（例：`feature/a-2-devise-users-teams`） |
 | `fix/◯◯` | バグ修正（例：`fix/calendar-date-offset`） |
 
 ### 開発の流れ
 
-1. GitHub Projects でIssueを Doing に移し、担当者を自分にする
-2. `main` から `feature/◯◯` ブランチを切る
-3. 実装し、RuboCop を通してからPRを作成（PR本文に `close #Issue番号` を書く）
+1. GitHub Projects でIssueを In Progress に移し、担当者を自分にする
+2. `development` から `feature/◯◯` ブランチを切る
+3. 実装し、RuboCop を通してからPRを作成（マージ先は `development`。PR 本文に `Closes #Issue番号` を書く）し、Issueを In Review に移す
 4. 実装者以外の1人がレビューしてApprove
 5. 実装者がマージし、Issueを Done に移す
 
@@ -787,7 +791,7 @@ docker compose up
 
 ### タスク管理
 
-GitHub Projects で To Do / Doing / Review / Done の4列で管理します。
+GitHub Projects で Todo / In Progress / In Review / Done の4列で管理します。
 
 ### 定例
 

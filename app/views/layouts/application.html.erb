@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
   <head>
-    <title><%= content_for(:title) || "App" %></title>
+    <title><%= content_for(:title) || "ひとめ日報" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
@@ -18,6 +18,47 @@
   </head>
 
   <body>
-    <%= yield %>
+    <header class="site-header">
+      <div class="header-inner">
+        <%= link_to "ひとめ日報", root_path, class: "app-name" %>
+
+        <% if user_signed_in? %>
+          <% if current_user.manager? %>
+            <span class="role-label"><span class="icon icon-manager" aria-hidden="true"></span>上司の画面</span>
+            <% nav_links = [
+              ["要約一覧", daily_reports_path, "icon-list"],
+              ["提出カレンダー", calendar_path, "icon-calendar"]
+            ] %>
+          <% else %>
+            <span class="role-label"><span class="icon icon-member" aria-hidden="true"></span>部下の画面</span>
+            <% nav_links = [
+              ["日報を書く", new_daily_report_path, "icon-pencil"],
+              ["自分の日報", my_daily_reports_path, "icon-list"]
+            ] %>
+          <% end %>
+
+          <nav class="header-nav">
+            <% nav_links.each do |label, path, icon| %>
+              <%= link_to path, class: ("current" if current_page?(path)) do %>
+                <span class="icon <%= icon %>" aria-hidden="true"></span><%= label %>
+              <% end %>
+            <% end %>
+            <%= button_to destroy_user_session_path, method: :delete do %>
+              <span class="icon icon-logout" aria-hidden="true"></span>ログアウト
+            <% end %>
+          </nav>
+        <% else %>
+          <span class="role-label"><span class="icon icon-key" aria-hidden="true"></span>ログイン前</span>
+        <% end %>
+      </div>
+    </header>
+
+    <main class="page">
+      <% flash.each do |type, message| %>
+        <p class="flash flash-<%= type %>"><%= message %></p>
+      <% end %>
+
+      <%= yield %>
+    </main>
   </body>
 </html>

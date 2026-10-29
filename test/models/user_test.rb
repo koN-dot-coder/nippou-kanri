@@ -1,7 +1,8 @@
 require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "fixture is valid" do
+    assert users(:boss).valid?
+    assert users(:member).valid?
+  end
 end

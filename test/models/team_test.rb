@@ -1,7 +1,7 @@
 require "test_helper"
 
 class TeamTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "fixture is valid" do
+    assert teams(:one).valid?
+  end
 end
