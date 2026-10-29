@@ -9,7 +9,7 @@ class DailyReport < ApplicationRecord
   validates :report_date, presence: true, uniqueness: { scope: :user_id }
   validates :condition, inclusion: { in: 1..5 }, allow_nil: true
   validates :done, :plan, :condition, presence: true, if: :submitted?
-before_save :mark_submitted, if: -> { will_save_change_to_status?(to: "submitted") }
+  before_save :mark_submitted, if: -> { will_save_change_to_status?(to: "submitted") }
 
   # 一覧の並び：要確認が上、その中は提出が早い順
   scope :for_summary, -> { order(needs_attention: :desc, submitted_at: :asc) }
