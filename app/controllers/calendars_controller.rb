@@ -5,6 +5,5 @@ class CalendarsController < ApplicationController
     @submitted_counts = {}
     @attention_counts = {}
     @member_count = 0
-
   end
 end
