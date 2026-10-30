@@ -1,26 +1,32 @@
-<h2>Log in</h2>
+<% content_for :title, "ログイン | ひとめ日報" %>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <p><%= f.label :email %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
-  </div>
+<div class="form-box">
+  <h1 class="page-title"><span class="icon icon-key" aria-hidden="true"></span>ログイン</h1>
+  <p class="page-lead">部下の日報を、朝5分で。</p>
 
-  <div class="field">
-    <p><%= f.label :password %></p>
-    <p><%= f.password_field :password, autocomplete: "current-password" %></p>
-  </div>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "login-form" }) do |f| %>
+    <div class="form-field">
+      <%= f.label :email do %>
+        <span class="icon icon-mail" aria-hidden="true"></span>メールアドレス
+      <% end %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "example@company.jp" %>
+    </div>
 
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <p><%= f.check_box :remember_me %></p>
-      <p><%= f.label :remember_me %></p>
+    <div class="form-field">
+      <%= f.label :password do %>
+        <span class="icon icon-lock" aria-hidden="true"></span>パスワード
+      <% end %>
+      <%= f.password_field :password, autocomplete: "current-password" %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.button type: "submit", class: "button" do %>
+        <span class="icon icon-next" aria-hidden="true"></span>ログイン
+      <% end %>
     </div>
   <% end %>
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+  <p class="form-note">
+    <span class="icon icon-info" aria-hidden="true"></span>デモ用　上司：boss@example.com ／ 部下：member1@example.com（パスワードはどちらも password）
+  </p>
+</div>

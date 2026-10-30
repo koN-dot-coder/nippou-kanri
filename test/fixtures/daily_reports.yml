@@ -1,0 +1,18 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+draft:
+  user: member
+  report_date: 2026-10-27
+  done: 資料作成
+  status: draft
+
+submitted:
+  user: member
+  report_date: 2026-10-28
+  done: 顧客訪問2件
+  plan: 見積書の作成
+  condition: 4
+  status: submitted
+  submitted_at: 2026-10-28 18:00:00
