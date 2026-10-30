@@ -817,3 +817,62 @@ a.calendar-day:hover {
     font-size: 13px;
   }
 }
+
+/* ===== ここから C-3 で追加 ===== */
+
+/* フォーム上部のエラー一覧（色は .flash-alert を使う） */
+.form-errors p {
+  margin: 0 0 4px;
+  font-weight: bold;
+}
+
+.form-errors ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+/* 調子（1〜5）：fieldset の枠を消し、ラジオボタンを横に並べる */
+.condition-field {
+  border: 0;
+  padding: 0;
+  margin: 0 0 20px;
+  min-width: 0;
+}
+
+.condition-field legend {
+  padding: 0;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.condition-options {
+  display: flex;
+  gap: 8px;
+}
+
+.condition-options label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 8px 14px;
+  border: 1px solid #b4b4bc;
+  border-radius: 4px;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.condition-options input {
+  width: auto;
+  margin: 0;
+}
+
+/* エラー時に Rails が欄を包む div で並びが崩れないようにし、枠を赤くする */
+.field_with_errors {
+  display: contents;
+}
+
+.field_with_errors textarea,
+.field_with_errors input {
+  border-color: var(--alert);
+}
