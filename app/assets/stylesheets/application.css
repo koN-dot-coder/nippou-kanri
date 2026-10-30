@@ -876,3 +876,80 @@ a.calendar-day:hover {
 .field_with_errors input {
   border-color: var(--alert);
 }
+
+/* ===== ここから C-4 で追加 ===== */
+
+/* 要約一覧：前の日／次の日 */
+.date-nav {
+  display: flex;
+  gap: 16px;
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+.date-nav a {
+  display: inline-flex;
+  align-items: center;
+}
+
+.date-nav a .icon:last-child {
+  margin: 0 0 0 0.35em;
+}
+
+.icon-flip {
+  transform: scaleX(-1);
+}
+
+/* 一覧の1人分：カード（リンク）の右に印のつけ外しボタンを置く */
+.report-card {
+  display: flex;
+  align-items: center;
+}
+
+.report-card > a {
+  flex: 1;
+  min-width: 0;
+}
+
+.report-card .button_to {
+  margin: 0;
+  padding-right: 20px;
+}
+
+.attention-toggle {
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--white);
+  color: var(--text-sub);
+  font-size: 12px;
+  font-family: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.attention-toggle:hover {
+  border-color: var(--alert);
+  color: var(--alert);
+}
+
+/* 0件のとき */
+.empty-note {
+  margin: 0;
+  padding: 14px 20px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--white);
+  color: var(--text-sub);
+}
+
+@media (max-width: 600px) {
+  .report-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .report-card .button_to {
+    padding: 0 16px 14px;
+  }
+}

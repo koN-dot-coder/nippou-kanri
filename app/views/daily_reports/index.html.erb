@@ -1,2 +1,73 @@
-<h1>その日の日報一覧</h1>
-<p>上司用（A-3 仮画面）</p>
+<% content_for :title, "要約一覧 | ひとめ日報" %>
+<% attention_reports, other_reports = @reports.partition(&:needs_attention?) %>
+
+<div class="page-header">
+  <div>
+    <p class="page-date"><%= l(@date, format: "%Y年%-m月%-d日（%a）") %></p>
+    <h1 class="page-title">要約一覧</h1>
+    <nav class="date-nav" aria-label="日付の切り替え">
+      <%= link_to daily_reports_path(date: @date - 1) do %>
+        <span class="icon icon-next icon-flip" aria-hidden="true"></span>前の日
+      <% end %>
+      <%= link_to daily_reports_path(date: @date + 1) do %>
+        次の日<span class="icon icon-next" aria-hidden="true"></span>
+      <% end %>
+    </nav>
+  </div>
+  <dl class="summary-stats">
+    <div class="stat-item">
+      <dt><span class="icon icon-send" aria-hidden="true"></span>提出</dt>
+      <dd><%= @reports.size %><small>/<%= @reports.size + @missing_users.size %></small></dd>
+    </div>
+    <div class="stat-item stat-alert">
+      <dt><span class="icon icon-alert" aria-hidden="true"></span>要確認</dt>
+      <dd><%= @reports.count(&:needs_attention?) %></dd>
+    </div>
+    <div class="stat-item">
+      <dt><span class="icon icon-pending" aria-hidden="true"></span>未提出</dt>
+      <dd><%= @missing_users.size %></dd>
+    </div>
+  </dl>
+</div>
+
+<% if attention_reports.any? %>
+  <section class="attention-panel">
+    <h2 class="attention-title">
+      <span class="icon icon-message" aria-hidden="true"></span>声をかけたい人
+      <span class="attention-count"><%= attention_reports.size %></span>
+    </h2>
+    <ul class="report-list">
+      <%= render partial: "report_card", collection: attention_reports, as: :report %>
+    </ul>
+  </section>
+<% end %>
+
+<section class="report-section">
+  <h2 class="section-title"><span class="icon icon-check" aria-hidden="true"></span>提出済み<span class="section-count"><%= other_reports.size %></span></h2>
+  <% if other_reports.any? %>
+    <ul class="report-list">
+      <%= render partial: "report_card", collection: other_reports, as: :report %>
+    </ul>
+  <% else %>
+    <p class="empty-note">まだありません</p>
+  <% end %>
+</section>
+
+<section class="report-section">
+  <h2 class="section-title"><span class="icon icon-pending" aria-hidden="true"></span>未提出<span class="section-count"><%= @missing_users.size %></span></h2>
+  <% if @missing_users.any? %>
+    <ul class="report-list">
+      <% @missing_users.each do |user| %>
+        <li>
+          <div class="report-row is-missing">
+            <span class="member-name"><%= user.name %></span>
+            <p class="report-summary">まだ提出されていません</p>
+            <span class="submitted-time">—</span>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="empty-note">全員提出しています</p>
+  <% end %>
+</section>
