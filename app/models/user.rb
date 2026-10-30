@@ -10,5 +10,6 @@ class User < ApplicationRecord
   def visible_daily_reports
     manager? ? team.daily_reports.submitted : daily_reports
   end
+
   validates :name, presence: true
 end
