@@ -876,3 +876,31 @@ a.calendar-day:hover {
 .field_with_errors input {
   border-color: var(--alert);
 }
+
+/* ===== ここから C-5 で追加 ===== */
+
+/* 日報詳細：部下が見たときの「下書き／提出済み」 */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 1px 8px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--bg);
+  color: var(--text-sub);
+}
+
+/* 下のボタン欄に button_to（form）が入っても横に並ぶようにする */
+.detail-actions .button_to {
+  display: flex;
+  margin: 0;
+}
+
+.detail-actions .submitted-note {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-sub);
+  font-weight: bold;
+}
