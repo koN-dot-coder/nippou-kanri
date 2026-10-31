@@ -1,3 +1,86 @@
-<h1>日報詳細</h1>
-<p>B-2 仮画面（日付 : <%=@daily_report.report_date %>)
-</p> 
+<% report = @daily_report %>
+<% content_for :title, "#{report.user.name} の日報 | ひとめ日報" %>
+
+<% if current_user.manager? %>
+  <%= link_to "← #{l(report.report_date, format: "%-m月%-d日")}の要約一覧へ戻る", daily_reports_path(date: report.report_date), class: "back-link" %>
+<% else %>
+  <%= link_to "← 自分の日報へ戻る", my_daily_reports_path, class: "back-link" %>
+<% end %>
+
+<div class="detail-box">
+  <div class="detail-head">
+    <h1 class="page-title"><%= report.user.name %> の日報</h1>
+    <% if current_user.manager? %>
+      <% if report.needs_attention? %>
+        <span class="alert-badge"><span class="icon icon-alert" aria-hidden="true"></span>要確認</span>
+      <% end %>
+    <% else %>
+      <span class="status-badge"><%= report.draft? ? "下書き" : "提出済み" %></span>
+    <% end %>
+  </div>
+  <p class="page-lead">
+    <%= l(report.report_date, format: "%Y年%-m月%-d日（%a）") %>
+    <% if report.submitted_at %>
+      <span class="page-lead-sub">提出 <%= l(report.submitted_at, format: "%H:%M") %></span>
+    <% else %>
+      <span class="page-lead-sub">下書き（まだ提出していません）</span>
+    <% end %>
+  </p>
+
+  <% if current_user.manager? && report.needs_attention? %>
+    <div class="alert-box">
+      <strong><span class="icon icon-alert" aria-hidden="true"></span>要確認の理由</strong>
+      <ul class="alert-reason-list">
+        <% report.attention_reasons.each do |reason| %>
+          <li><span class="icon <%= attention_reason_icon(reason) %>" aria-hidden="true"></span><%= reason %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <section class="report-item">
+    <h2><span class="icon icon-check" aria-hidden="true"></span>今日やったこと</h2>
+    <%= simple_format(report.done.presence || "（まだ書かれていません）") %>
+  </section>
+
+  <section class="report-item">
+    <h2><span class="icon icon-trouble" aria-hidden="true"></span>困っていること</h2>
+    <%= simple_format(report.trouble.presence || "なし") %>
+  </section>
+
+  <section class="report-item">
+    <h2><span class="icon icon-next" aria-hidden="true"></span>明日やること</h2>
+    <%= simple_format(report.plan.presence || "（まだ書かれていません）") %>
+  </section>
+
+  <section class="report-item">
+    <h2><span class="icon icon-mood" aria-hidden="true"></span>調子</h2>
+    <p><%= report.condition ? "#{report.condition} / 5" : "（まだ選ばれていません）" %></p>
+  </section>
+
+  <div class="detail-actions">
+    <% if current_user.manager? %>
+      <%= link_to daily_reports_path(date: report.report_date), class: "button" do %>
+        <span class="icon icon-list" aria-hidden="true"></span>一覧へ戻る
+      <% end %>
+      <%= button_to toggle_attention_daily_report_path(report), method: :patch, class: "button button-outline" do %>
+        <span class="icon icon-alert" aria-hidden="true"></span><%= report.needs_attention? ? "印を外す" : "印をつける" %>
+      <% end %>
+      <%= link_to calendar_path, class: "button button-outline" do %>
+        <span class="icon icon-calendar" aria-hidden="true"></span>カレンダーを見る
+      <% end %>
+    <% elsif report.draft? %>
+      <%= link_to edit_daily_report_path(report), class: "button" do %>
+        <span class="icon icon-pencil" aria-hidden="true"></span>編集する
+      <% end %>
+      <%= link_to my_daily_reports_path, class: "button button-outline" do %>
+        <span class="icon icon-list" aria-hidden="true"></span>自分の日報へ
+      <% end %>
+    <% else %>
+      <span class="submitted-note"><span class="icon icon-check" aria-hidden="true"></span>提出済みです</span>
+      <%= link_to my_daily_reports_path, class: "button button-outline" do %>
+        <span class="icon icon-list" aria-hidden="true"></span>自分の日報へ
+      <% end %>
+    <% end %>
+  </div>
+</div>
