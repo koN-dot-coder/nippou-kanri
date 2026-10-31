@@ -9,7 +9,6 @@ class DailyReportsController < ApplicationController
     @missing_users = User.none
   end
 
-  # TODO(B-4): current_user.visible_daily_reports.find に差し替える
   def show
     @daily_report = current_user.visible_daily_reports.find(params[:id])
   end
