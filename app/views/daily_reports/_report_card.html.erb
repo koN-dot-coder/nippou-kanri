@@ -1,0 +1,34 @@
+<%# 要約一覧の1人分。要確認なら赤い帯と「気になるポイント」を出す %>
+<% reason_icons = { "困りごとあり" => "icon-trouble", "調子が低め" => "icon-mood" } %>
+
+<li class="report-card">
+  <% if report.needs_attention? %>
+    <%= link_to daily_report_path(report), class: "report-row is-alert" do %>
+      <div class="report-row-main">
+        <div class="report-row-head">
+          <span class="member-name"><%= report.user.name %></span>
+          <span class="submitted-time"><span class="icon icon-clock" aria-hidden="true"></span><%= l(report.submitted_at, format: "%H:%M") %> 提出</span>
+        </div>
+        <div class="alert-reason-box">
+          <p class="alert-reason-label">気になるポイント</p>
+          <ul class="alert-reason-list">
+            <% report.attention_reasons.each do |reason| %>
+              <li><span class="icon <%= reason_icons.fetch(reason, "icon-alert") %>" aria-hidden="true"></span><%= reason %></li>
+            <% end %>
+          </ul>
+        </div>
+        <p class="report-summary"><%= report.summary %></p>
+      </div>
+      <span class="read-more">日報を読む<span class="icon icon-next" aria-hidden="true"></span></span>
+    <% end %>
+  <% else %>
+    <%= link_to daily_report_path(report), class: "report-row" do %>
+      <span class="member-name"><%= report.user.name %></span>
+      <p class="report-summary"><%= report.summary %></p>
+      <span class="submitted-time"><span class="icon icon-clock" aria-hidden="true"></span><%= l(report.submitted_at, format: "%H:%M") %> 提出</span>
+    <% end %>
+  <% end %>
+
+  <%= button_to (report.needs_attention? ? "印を外す" : "印をつける"),
+        toggle_attention_daily_report_path(report), method: :patch, class: "attention-toggle" %>
+</li>
