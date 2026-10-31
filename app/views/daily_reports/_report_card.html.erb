@@ -1,5 +1,4 @@
 <%# 要約一覧の1人分。要確認なら赤い帯と「気になるポイント」を出す %>
-<% reason_icons = { "困りごとあり" => "icon-trouble", "調子が低め" => "icon-mood" } %>
 
 <li class="report-card">
   <% if report.needs_attention? %>
@@ -13,7 +12,7 @@
           <p class="alert-reason-label">気になるポイント</p>
           <ul class="alert-reason-list">
             <% report.attention_reasons.each do |reason| %>
-              <li><span class="icon <%= reason_icons.fetch(reason, "icon-alert") %>" aria-hidden="true"></span><%= reason %></li>
+              <li><span class="icon <%= attention_reason_icon(reason) %>" aria-hidden="true"></span><%= reason %></li>
             <% end %>
           </ul>
         </div>

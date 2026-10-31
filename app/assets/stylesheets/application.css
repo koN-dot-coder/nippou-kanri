@@ -980,3 +980,8 @@ a.calendar-day:hover {
   color: var(--text-sub);
   font-weight: bold;
 }
+
+/* 日付と「提出 10:30」の間をあける */
+.page-lead-sub {
+  margin-left: 1em;
+}
