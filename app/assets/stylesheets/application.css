@@ -365,6 +365,115 @@ a.report-row.is-alert:hover {
   color: var(--text-sub);
 }
 
+/* ===== C-7 で追加：自分の日報一覧 ===== */
+.my-report-list {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.my-report-row {
+  grid-template-columns: 8em 5.5em 1fr auto;
+  align-items: center;
+}
+
+.my-report-date {
+  font-weight: bold;
+}
+
+.my-report-status {
+  justify-self: start;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 1px 8px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--bg);
+  color: var(--text-sub);
+}
+
+/* 下書きは「まだ終わっていない」ので目立たせる */
+.my-report-status.is-draft {
+  border-color: var(--main);
+  background: var(--white);
+  color: var(--main);
+}
+
+.empty-box {
+  padding: 32px 20px;
+  text-align: center;
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+  background: var(--white);
+  color: var(--text-sub);
+}
+
+/* ===== C-7 で追加：トップページ ===== */
+.top-hero {
+  padding: 48px 20px 40px;
+  text-align: center;
+}
+
+.top-title {
+  margin: 0;
+  font-size: 32px;
+  color: var(--header);
+}
+
+.top-lead {
+  margin: 12px 0 28px;
+  font-size: 17px;
+  color: var(--text-sub);
+}
+
+.top-features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.top-features li {
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--main);
+  border-radius: 4px;
+  background: var(--white);
+}
+
+.top-features h2 {
+  display: flex;
+  align-items: center;
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--main);
+}
+
+.top-features p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-sub);
+}
+
+@media (max-width: 600px) {
+  .report-row.my-report-row {
+    grid-template-columns: auto 1fr;
+  }
+
+  .my-report-row .report-summary {
+    grid-column: 1 / -1;
+  }
+
+  .my-report-row > .icon {
+    display: none;
+  }
+
+  .top-features {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* 要確認のラベル（詳細ページ） */
 .alert-badge {
   display: inline-flex;

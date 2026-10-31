@@ -1,2 +1,33 @@
-<h1>自分の日報一覧</h1>
-<p>部下ログイン後（A-3 仮画面）</p>
+<% content_for :title, "自分の日報 | ひとめ日報" %>
+
+<div class="page-header">
+  <div>
+    <h1 class="page-title"><span class="icon icon-list" aria-hidden="true"></span>自分の日報</h1>
+    <p class="page-lead">新しい日付が上です。下書きは押すと続きを書けます。</p>
+  </div>
+  <%= link_to new_daily_report_path, class: "button" do %>
+    <span class="icon icon-pencil" aria-hidden="true"></span>日報を書く
+  <% end %>
+</div>
+
+<% if @daily_reports.any? %>
+  <ul class="report-list my-report-list">
+    <% @daily_reports.each do |report| %>
+      <li>
+        <%= link_to daily_report_path(report), class: "report-row my-report-row" do %>
+          <span class="my-report-date"><%= l(report.report_date, format: "%-m月%-d日（%a）") %></span>
+          <%= tag.span (report.draft? ? "下書き" : "提出済み"), class: ["my-report-status", { "is-draft": report.draft? }] %>
+          <p class="report-summary"><%= report.summary.presence || "（まだ書かれていません）" %></p>
+          <span class="icon icon-next" aria-hidden="true"></span>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <div class="empty-box">
+    <p>まだ日報がありません。今日の日報を書いてみましょう。</p>
+    <%= link_to new_daily_report_path, class: "button" do %>
+      <span class="icon icon-pencil" aria-hidden="true"></span>日報を書く
+    <% end %>
+  </div>
+<% end %>
