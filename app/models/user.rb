@@ -8,4 +8,8 @@ class User < ApplicationRecord
   enum :role, { member: 0, manager: 1 }
 
   validates :name, presence: true
+
+  def visible_daily_reports
+    manager? ? team.daily_reports.submitted : daily_reports
+  end
 end
