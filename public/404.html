@@ -1,67 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-  <title>The page you were looking for doesn't exist (404)</title>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ページが見つかりません | ひとめ日報</title>
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <!-- Rails を通らずに表示されるので、CSS はこのファイルの中に書いています（404・422・500・406 で共通） -->
   <style>
-  .rails-default-error-page {
-    background-color: #EFEFEF;
-    color: #2E2F30;
-    text-align: center;
-    font-family: arial, sans-serif;
-    margin: 0;
-  }
-
-  .rails-default-error-page div.dialog {
-    width: 95%;
-    max-width: 33em;
-    margin: 4em auto 0;
-  }
-
-  .rails-default-error-page div.dialog > div {
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #BBB;
-    border-top: #B00100 solid 4px;
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
-    background-color: white;
-    padding: 7px 12% 0;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
-
-  .rails-default-error-page h1 {
-    font-size: 100%;
-    color: #730E15;
-    line-height: 1.5em;
-  }
-
-  .rails-default-error-page div.dialog > p {
-    margin: 0 0 1em;
-    padding: 1em;
-    background-color: #F7F7F7;
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #999;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-top-color: #DADADA;
-    color: #666;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
+    body {
+      margin: 0;
+      background: #f4f4f6;
+      color: #16202b;
+      font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", Meiryo, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .site-header {
+      background: #16202b;
+      padding: 14px 20px;
+    }
+    .app-name {
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 18px;
+      text-decoration: none;
+    }
+    .error-box {
+      max-width: 480px;
+      margin: 64px auto 0;
+      padding: 32px 24px;
+      border: 1px solid #d1d1d6;
+      border-top: 3px solid #114665;
+      border-radius: 4px;
+      background: #ffffff;
+      text-align: center;
+    }
+    .error-code {
+      margin: 0;
+      font-size: 13px;
+      color: #5c606b;
+    }
+    h1 {
+      margin: 4px 0 12px;
+      font-size: 20px;
+    }
+    p {
+      margin: 0 0 24px;
+      color: #5c606b;
+    }
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 4px;
+      background: #114665;
+      color: #ffffff;
+      text-decoration: none;
+    }
+    @media (max-width: 600px) {
+      .error-box {
+        margin: 32px 16px 0;
+      }
+    }
   </style>
 </head>
-
-<body class="rails-default-error-page">
-  <!-- This file lives in public/404.html -->
-  <div class="dialog">
-    <div>
-      <h1>The page you were looking for doesn't exist.</h1>
-      <p>You may have mistyped the address or the page may have moved.</p>
-    </div>
-    <p>If you are the application owner check the logs for more information.</p>
-  </div>
+<body>
+  <header class="site-header">
+    <a href="/" class="app-name">ひとめ日報</a>
+  </header>
+  <main class="error-box">
+    <p class="error-code">404</p>
+    <h1>ページが見つかりません</h1>
+    <p>URL がまちがっているか、見る権限のない日報の可能性があります。</p>
+    <a href="/" class="button">トップへ戻る</a>
+  </main>
 </body>
 </html>
