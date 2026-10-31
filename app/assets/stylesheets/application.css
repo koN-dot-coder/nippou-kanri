@@ -22,6 +22,9 @@
   --link: #114665;
   --alert: #9b1239;       /* Berry Wine を少し鮮やかにした色：要確認 */
   --alert-bg: #f9e8ee;    /* 要確認の薄い背景 */
+  --success: #1f5e3a;     /* 「提出しました」などの文字 */
+  --success-line: #2e7d4f;
+  --success-bg: #e8f4ec;
   --muted-berry: #7b445a; /* カレンダーの「未提出あり」だけに使う */
   --text: #16202b;
   --text-sub: #5c606b;
@@ -932,6 +935,13 @@ a.calendar-day:hover {
   border-left-color: var(--alert);
   background: var(--alert-bg);
   color: var(--alert);
+}
+
+/* 「できた」お知らせは緑（C-8 で追加） */
+.flash-notice {
+  border-left-color: var(--success-line);
+  background: var(--success-bg);
+  color: var(--success);
 }
 
 @media (max-width: 600px) {
