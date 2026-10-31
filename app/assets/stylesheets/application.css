@@ -586,6 +586,20 @@ a.calendar-day:hover {
   border: 2px solid var(--main);
 }
 
+/* C-6 で追加：前月・翌月の日は薄く、要確認の数は赤で */
+.calendar td.prev-month .calendar-day,
+.calendar td.next-month .calendar-day {
+  opacity: 0.45;
+}
+
+.attention-mark {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--alert);
+  white-space: nowrap;
+}
+
 /* ===== フォーム（ログイン・日報作成） ===== */
 .form-box {
   max-width: 560px;

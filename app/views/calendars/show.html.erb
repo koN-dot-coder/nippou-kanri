@@ -1,2 +1,43 @@
-<h1>カレンダー</h1>
-<p>上司ログイン後（A-3 仮画面）</p>
+<% content_for :title, "提出カレンダー | ひとめ日報" %>
+<%# その日の提出数・未提出数を返す（未来の日と、提出のない土日は数えない） %>
+<% counts_for = lambda do |day|
+     submitted = @submitted_counts.fetch(day, 0)
+     next if day > Date.current || (day.on_weekend? && submitted.zero?)
+     { submitted: submitted, missing: [ @member_count - submitted, 0 ].max }
+   end %>
+<% td_class = lambda do |day|
+     counts = counts_for.call(day)
+     [ ("is-today" if day == Date.current),
+       ("is-holiday" if day.on_weekend? && counts.nil?),
+       ("is-short" if counts && counts[:missing].positive?) ]
+   end %>
+
+<h1 class="page-title"><span class="icon icon-calendar" aria-hidden="true"></span>提出カレンダー</h1>
+<p class="page-lead">日ごとの「提出人数／全体人数」です。日付を押すと、その日の要約一覧が開きます。</p>
+
+<%= month_calendar(locals: { td_class: td_class }) do |day| %>
+  <% counts = counts_for.call(day) %>
+  <% if counts %>
+    <%= link_to daily_reports_path(date: day), class: "calendar-day" do %>
+      <span class="day-number"><%= day.day %></span>
+      <span class="submit-count"><%= counts[:submitted] %>/<%= @member_count %></span>
+      <span class="submit-bar"><span class="submit-bar-fill" style="width: <%= @member_count.zero? ? 0 : counts[:submitted] * 100 / @member_count %>%"></span></span>
+      <% if counts[:missing].positive? %>
+        <span class="missing-count"><span class="icon icon-pending" aria-hidden="true"></span><%= counts[:missing] %>人未提出</span>
+      <% else %>
+        <span class="complete-mark"><span class="icon icon-check" aria-hidden="true"></span>全員</span>
+      <% end %>
+      <% if @attention_counts.fetch(day, 0).positive? %>
+        <span class="attention-mark"><span class="icon icon-alert" aria-hidden="true"></span>要確認 <%= @attention_counts[day] %></span>
+      <% end %>
+    <% end %>
+  <% else %>
+    <span class="calendar-day"><span class="day-number"><%= day.day %></span></span>
+  <% end %>
+<% end %>
+
+<div class="calendar-legend">
+  <span class="legend-item"><span class="legend-swatch"></span>全員提出</span>
+  <span class="legend-item"><span class="legend-swatch is-short"></span>未提出あり</span>
+  <span class="legend-item"><span class="legend-swatch is-today"></span>今日（<%= l(Date.current, format: "%-m月%-d日") %>）</span>
+</div>
