@@ -1,2 +1,36 @@
-<h1>ひとめ日報</h1>
-<p>トップ（A-3 仮画面）</p>
+<% content_for :title, "ひとめ日報" %>
+
+<section class="top-hero">
+  <h1 class="top-title">ひとめ日報</h1>
+  <p class="top-lead">部下の日報から「今日声をかけたい人」が、朝5分でわかる。</p>
+  <% if user_signed_in? %>
+    <% if current_user.manager? %>
+      <%= link_to calendar_path, class: "button" do %>
+        <span class="icon icon-calendar" aria-hidden="true"></span>カレンダーへ
+      <% end %>
+    <% else %>
+      <%= link_to my_daily_reports_path, class: "button" do %>
+        <span class="icon icon-list" aria-hidden="true"></span>自分の日報へ
+      <% end %>
+    <% end %>
+  <% else %>
+    <%= link_to new_user_session_path, class: "button" do %>
+      <span class="icon icon-key" aria-hidden="true"></span>ログイン
+    <% end %>
+  <% end %>
+</section>
+
+<ul class="top-features">
+  <li>
+    <h2><span class="icon icon-pencil" aria-hidden="true"></span>書く</h2>
+    <p>4つの項目に沿って書くだけ。何を書くか迷いません。</p>
+  </li>
+  <li>
+    <h2><span class="icon icon-list" aria-hidden="true"></span>ひとめで読む</h2>
+    <p>全員の要約が1画面に。気になる人が一番上に並びます。</p>
+  </li>
+  <li>
+    <h2><span class="icon icon-alert" aria-hidden="true"></span>気づく</h2>
+    <p>困りごとや調子の低さに印がつき、見落としを防ぎます。</p>
+  </li>
+</ul>
