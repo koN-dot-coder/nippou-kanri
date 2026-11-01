@@ -13,15 +13,14 @@ class DailyReportsController < ApplicationController
     @daily_report = current_user.visible_daily_reports.find(params[:id])
   end
 
-  # TODO(B-3): 今日の分があれば、下書きなら編集・提出済みなら詳細へ移動する
-  def new
+    def new
     existing = current_user.daily_reports.find_by(report_date: Date.current)
-return redirect_to(existing.draft? ? edit_daily_report_path(existing) : existing) if existing
-    
-@daily_report = current_user.daily_reports.build(report_date: Date.current)
+    return redirect_to(existing.draft? ? edit_daily_report_path(existing) : existing) if existing
+
+    @daily_report = current_user.daily_reports.build(report_date: Date.current)
   end
 
-  # TODO(B-3): 下書き保存・提出の処理を書く
+  
   def create
     @daily_report = current_user.daily_reports.build(daily_report_params)
     @daily_report.status = params[:draft] ? :draft : :submitted
