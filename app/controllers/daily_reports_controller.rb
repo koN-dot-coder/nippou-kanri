@@ -18,7 +18,6 @@ end
     @daily_report = current_user.daily_reports.build(report_date: Date.current)
   end
 
-  # TODO(B-3): 下書き保存・提出の処理を書く
   def create
     @daily_report = current_user.daily_reports.build(daily_report_params)
     @daily_report.status = params[:draft] ? :draft : :submitted
@@ -30,12 +29,12 @@ end
     end
   end
 
-  # TODO(B-3): .draft を付けて、下書きだけ編集できるようにする
+
   def edit
     @daily_report = current_user.daily_reports.draft.find(params[:id])
   end
 
-  # TODO(B-3): 下書き保存・提出の処理を書く
+
   def update
     @daily_report = current_user.daily_reports.draft.find(params[:id])
     @daily_report.assign_attributes(daily_report_params)
