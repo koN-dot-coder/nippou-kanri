@@ -13,28 +13,58 @@ class DailyReportsController < ApplicationController
     @daily_report = current_user.visible_daily_reports.find(params[:id])
   end
 
-  # TODO(B-3): 今日の分があれば、下書きなら編集・提出済みなら詳細へ移動する
   def new
+    existing = current_user.daily_reports.find_by(report_date: Date.current)
+    return redirect_to(existing.draft? ? edit_daily_report_path(existing) : existing) if existing
+
     @daily_report = current_user.daily_reports.build(report_date: Date.current)
   end
 
-  # TODO(B-3): 下書き保存・提出の処理を書く
   def create
-    redirect_to my_daily_reports_path
+    @daily_report = current_user.daily_reports.build(daily_report_params)
+    @daily_report.status = params[:draft] ? :draft : :submitted
+
+    if @daily_report.save
+      redirect_after_save
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
-  # TODO(B-3): .draft を付けて、下書きだけ編集できるようにする
+
   def edit
-    @daily_report = current_user.daily_reports.find(params[:id])
+    @daily_report = current_user.daily_reports.draft.find(params[:id])
   end
 
-  # TODO(B-3): 下書き保存・提出の処理を書く
+
   def update
-    redirect_to my_daily_reports_path
+    @daily_report = current_user.daily_reports.draft.find(params[:id])
+    @daily_report.assign_attributes(daily_report_params)
+    @daily_report.status = params[:draft] ? :draft : :submitted
+
+    if @daily_report.save
+      redirect_after_save
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   # TODO(B-4): 要確認の印をつけ外しする
   def toggle_attention
     redirect_to daily_reports_path
+  end
+
+  private
+
+  def redirect_after_save
+    if @daily_report.draft?
+      redirect_to edit_daily_report_path(@daily_report), notice: "下書きを保存しました"
+    else
+      redirect_to @daily_report, notice: "日報を提出しました"
+    end
+  end
+
+  def daily_report_params
+    params.require(:daily_report).permit(:report_date, :done, :trouble, :plan, :condition)
   end
 end
