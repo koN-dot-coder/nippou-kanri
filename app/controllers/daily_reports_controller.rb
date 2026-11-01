@@ -1,23 +1,17 @@
 class DailyReportsController < ApplicationController
   before_action :require_manager!, only: %i[index toggle_attention]
   before_action :require_member!, only: %i[new create edit update]
-
-  # TODO(B-4): 指定日の提出済み日報と未提出者を取得する
-  def index
-    @date = params[:date].present? ? Date.parse(params[date]) : Date.current @reports = current_user.visible_daily_reports
-
-    .where(report_date:@date).includes(:user).for_summary
-    @missing_users = current_user.team.users.member.where.not(id: @reports.map(&:user_id)
-    @reports = DailyReport.none
-    @missing_users = User.none
-  end
-
+def index
+     @date = params[:date].present? ? Date.parse(params[:date]) : Date.current
+    @reports = current_user.visible_daily_reports
+                           .where(report_date: @date).includes(:user).for_summary
+    @missing_users = current_user.team.users.member.where.not(id: @reports.map(&:user_id))
+end
   def show
     @daily_report = current_user.visible_daily_reports.find(params[:id])
   end
 
-  # TODO(B-3): 今日の分があれば、下書きなら編集・提出済みなら詳細へ移動する
-    def new
+  def new
     existing = current_user.daily_reports.find_by(report_date: Date.current)
     return redirect_to(existing.draft? ? edit_daily_report_path(existing) : existing) if existing
 
@@ -54,14 +48,13 @@ class DailyReportsController < ApplicationController
     end
   end
 
-  
+
   def toggle_attention
-      def toggle_attention
     @daily_report = current_user.visible_daily_reports.find(params[:id])
     @daily_report.update!(needs_attention: !@daily_report.needs_attention)
     redirect_back fallback_location: daily_report_path(@daily_report)
   end
-  end
+
 
   private
 
