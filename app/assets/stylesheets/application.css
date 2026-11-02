@@ -19,6 +19,8 @@
   /* 配色：「夜明けのベリー」 */
   --header: #16202b;      /* Indigo Night：ヘッダー */
   --main: #114665;        /* Ocean Noir：ボタン・リンク */
+  --main-dark: #0c3550;   /* ボタンにマウスを乗せたとき */
+  --main-bg: #e9f0f5;     /* 枠線ボタンにマウスを乗せたとき */
   --link: #114665;
   --alert: #9b1239;       /* Berry Wine を少し鮮やかにした色：要確認 */
   --alert-bg: #f9e8ee;    /* 要確認の薄い背景 */
@@ -821,7 +823,7 @@ a.calendar-day:hover {
   }
 
   .calendar td {
-    height: 60px;
+    height: 72px;
   }
 
   .calendar-day {
@@ -832,20 +834,24 @@ a.calendar-day:hover {
     font-size: 12px;
   }
 
+  /* スマホは幅が狭いので、未提出は赤いマスとバーで伝え、文字は出さない */
   .complete-mark,
   .missing-count {
-    font-size: 10px;
-    white-space: normal;
-    line-height: 1.3;
-  }
-
-  .complete-mark .icon,
-  .missing-count .icon {
     display: none;
   }
 
-  .calendar td {
-    height: 84px;
+  /* 要確認は「⚠ 2」だけにする（文字は読み上げ用に残す） */
+  .attention-mark {
+    font-size: 11px;
+  }
+
+  .attention-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
   }
 
   .form-box,
@@ -1085,6 +1091,7 @@ a.calendar-day:hover {
   .report-card .button_to {
     padding: 0 16px 14px;
   }
+}
 
 /* ===== ここから C-5 で追加 ===== */
 
@@ -1117,4 +1124,53 @@ a.calendar-day:hover {
 /* 日付と「提出 10:30」の間をあける */
 .page-lead-sub {
   margin-left: 1em;
+}
+
+/* ===== ここから C-8 で追加 ===== */
+
+/* ボタン：マウスを乗せたとき */
+.button:hover {
+  background: var(--main-dark);
+  border-color: var(--main-dark);
+}
+
+.button-outline:hover {
+  background: var(--main-bg);
+  border-color: var(--main);
+}
+
+/* 色の変化を少しなめらかにする */
+.button,
+.attention-toggle,
+a.report-row,
+a.calendar-day,
+.header-nav a,
+.header-nav button {
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+/* キーボードで移動したときの枠（マウスでは出ない） */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--main);
+  outline-offset: 2px;
+}
+
+/* 紺のヘッダーの中は白い枠にする */
+.site-header a:focus-visible,
+.site-header button:focus-visible {
+  outline-color: var(--white);
+  outline-offset: -3px;
+}
+
+/* 調子（1〜5）：ラジオボタンを選んでいるときは外側の四角に枠を出す */
+.condition-options input:focus-visible {
+  outline: none;
+}
+
+.condition-options label:has(input:focus-visible) {
+  outline: 3px solid var(--main);
+  outline-offset: 2px;
 }

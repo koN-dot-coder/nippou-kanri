@@ -28,7 +28,7 @@
         <span class="complete-mark"><span class="icon icon-check" aria-hidden="true"></span>全員</span>
       <% end %>
       <% if @attention_counts.fetch(day, 0).positive? %>
-        <span class="attention-mark"><span class="icon icon-alert" aria-hidden="true"></span>要確認 <%= @attention_counts[day] %></span>
+        <span class="attention-mark"><span class="icon icon-alert" aria-hidden="true"></span><span class="attention-label">要確認 </span><%= @attention_counts[day] %></span>
       <% end %>
     <% end %>
   <% else %>
