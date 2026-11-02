@@ -1,12 +1,14 @@
 class DailyReportsController < ApplicationController
   before_action :require_manager!, only: %i[index toggle_attention]
   before_action :require_member!, only: %i[new create edit update]
-def index
-     @date = params[:date].present? ? Date.parse(params[:date]) : Date.current
+
+  def index
+    @date = params[:date].present? ? Date.parse(params[:date]) : Date.current
     @reports = current_user.visible_daily_reports
                            .where(report_date: @date).includes(:user).for_summary
     @missing_users = current_user.team.users.member.where.not(id: @reports.map(&:user_id))
-end
+  end
+
   def show
     @daily_report = current_user.visible_daily_reports.find(params[:id])
   end
