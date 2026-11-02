@@ -25,11 +25,10 @@ TODAY_TROUBLES = [
   "D社からクレームの電話があり、どう返事をすればよいか迷っています"
 ].freeze
 
-team = Team.find_or_create_by!(name: "営業１課")
+team = Team.find_or_create_by!(name: "営業1課")
 
-User.find_or_create_by!(email:"boss@example.com") di |u|
-u.assign_attributes(name: "佐藤 課長"), team:, role: :manager,
-password: "password")
+User.find_or_create_by!(email: "boss@example.com") do |u|
+  u.assign_attributes(name: "佐藤 課長", team:, role: :manager, password: "password")
 end
 
 members = (1..10).map do |i|
