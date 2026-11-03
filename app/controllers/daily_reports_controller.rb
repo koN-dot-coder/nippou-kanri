@@ -2,11 +2,11 @@ class DailyReportsController < ApplicationController
   before_action :require_manager!, only: %i[index toggle_attention]
   before_action :require_member!, only: %i[new create edit update]
 
-  # TODO(B-4): 指定日の提出済み日報と未提出者を取得する
   def index
-    @date = Date.current
-    @reports = DailyReport.none
-    @missing_users = User.none
+    @date = parse_summary_date(params[:date])
+    @reports = current_user.visible_daily_reports
+                           .where(report_date: @date).includes(:user).for_summary
+    @missing_users = current_user.team.users.member.where.not(id: @reports.map(&:user_id))
   end
 
   def show
@@ -31,11 +31,9 @@ class DailyReportsController < ApplicationController
     end
   end
 
-
   def edit
     @daily_report = current_user.daily_reports.draft.find(params[:id])
   end
-
 
   def update
     @daily_report = current_user.daily_reports.draft.find(params[:id])
@@ -49,9 +47,10 @@ class DailyReportsController < ApplicationController
     end
   end
 
-  # TODO(B-4): 要確認の印をつけ外しする
   def toggle_attention
-    redirect_to daily_reports_path
+    @daily_report = current_user.visible_daily_reports.find(params[:id])
+    @daily_report.update!(needs_attention: !@daily_report.needs_attention)
+    redirect_back fallback_location: daily_report_path(@daily_report)
   end
 
   private
@@ -66,5 +65,13 @@ class DailyReportsController < ApplicationController
 
   def daily_report_params
     params.require(:daily_report).permit(:report_date, :done, :trouble, :plan, :condition)
+  end
+
+  def parse_summary_date(raw)
+    return Date.current if raw.blank?
+
+    Date.parse(raw)
+  rescue ArgumentError, TypeError
+    Date.current
   end
 end
