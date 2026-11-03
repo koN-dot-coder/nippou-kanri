@@ -6,9 +6,14 @@ MEMBER_NAMES = [
 DONE_TEXTS = [
   "A社を訪問し、新商品の提案資料を説明した。前向きな反応をもらえた",
   "見積書を3件作成して送付した。午後は既存顧客への電話フォロー",
-  "新人研修の2日目を担当。名刺交換とヒアリングの練習をした",
-  "B社の担当者と打ち合わせ。来月の発注量について相談した",
-  "社内の営業会議に参加し、今月の進捗を報告した"
+  "社内の営業会議に参加し、今月の進捗を報告した",
+  "C社の新しい担当者にあいさつに行き、これまでの取引を説明した",
+  "展示会の準備。パンフレットの発注と、ブースの配置を決めた",
+  "既存顧客5社に電話して、来月の発注予定を聞いた",
+  "E社との契約書を確認して、法務に回した",
+  "後輩の商談に同行して、ヒアリングの進め方を見せた",
+  "先月の売上をまとめて、課長に報告した",
+  "F社に新商品のサンプルを届けて、使い方を説明した"
 ].freeze
 
 PLAN_TEXTS = [
@@ -16,13 +21,30 @@ PLAN_TEXTS = [
   "見積もりの返事が来ていない2社に電話する",
   "研修のふりかえりアンケートを集計する",
   "B社の発注書を確認して、在庫を手配する",
-  "来週の訪問先のアポイントを取る"
+  "来週の訪問先のアポイントを取る",
+  "展示会のチラシを最終確認する",
+  "E社の契約書の修正点を確認する",
+  "後輩と商談のふりかえりをする",
+  "来月の売上目標の案を作る",
+  "F社にサンプルの感想を聞く"
 ].freeze
 
-TODAY_TROUBLES = [
-  "B社の納期が来週に前倒しになり、今の人数では間に合いそうにありません",
-  "新人の研修資料が古いままで、質問にうまく答えられていません",
-  "D社からクレームの電話があり、どう返事をすればよいか迷っています"
+TODAY_ATTENTION = [
+  {
+    done: "B社と打ち合わせ。納期を来週に前倒ししてほしいと相談された",
+    trouble: "B社の納期が来週に前倒しになり、今の人数では間に合いそうにありません",
+    condition: 4
+  },
+  {
+    done: "新人研修の資料を直そうとしたが、半分しか進まなかった",
+    trouble: nil,
+    condition: 2
+  },
+  {
+    done: "D社からの電話に対応。商品の不具合について話を聞いた",
+    trouble: "D社からクレームの電話があり、どう返事をすればよいか迷っています",
+    condition: 2
+  }
 ].freeze
 
 team = Team.find_or_create_by!(name: "営業1課")
@@ -45,22 +67,18 @@ dates.each do |date|
     next if date == today && i >= 8
 
     n = i + date.day
-    if date == today && i < 3
-      trouble = TODAY_TROUBLES[i]
-      condition = 2
-    else
-      trouble = nil
-      condition = 3 + (n % 3)
+    attrs = {
+      done: DONE_TEXTS[n % DONE_TEXTS.size],
+      plan: PLAN_TEXTS[n % PLAN_TEXTS.size],
+      trouble: nil,
+      condition: 3 + (n % 3)
+    }
+    attrs.merge!(TODAY_ATTENTION[i]) if date == today && i < 3
+
+    report = member.daily_reports.find_or_create_by!(report_date: date) do |r|
+      r.assign_attributes(**attrs, status: :submitted)
     end
 
-    member.daily_reports.find_or_create_by!(report_date: date) do |report|
-      report.assign_attributes(
-        done: DONE_TEXTS[n % DONE_TEXTS.size],
-        plan: PLAN_TEXTS[n % PLAN_TEXTS.size],
-        trouble:,
-        condition:,
-        status: :submitted
-      )
-    end
+    report.update_column(:submitted_at, date.in_time_zone.change(hour: 17, min: 30) + i * 7.minutes)
   end
 end
