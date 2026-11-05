@@ -1,0 +1,32 @@
+<%# simple_calendar の月表示。mock/calendar.html の見た目に合わせています %>
+<%# マスごとに足したいクラスは、呼び出し側から locals: { td_class: ->(day) { ... } } で渡せます %>
+<% prev_month = start_date.prev_month %>
+<% next_month = start_date.next_month %>
+
+<div class="calendar-nav">
+  <%= link_to "← #{prev_month.month}月", calendar.url_for_previous_view %>
+  <time datetime="<%= start_date.strftime("%Y-%m") %>" class="calendar-month"><%= start_date.year %>年<%= start_date.month %>月</time>
+  <%= link_to "#{next_month.month}月 →", calendar.url_for_next_view %>
+</div>
+
+<table class="calendar">
+  <thead>
+    <tr>
+      <% date_range.slice(0, 7).each do |day| %>
+        <th><%= t("date.abbr_day_names")[day.wday] %></th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% date_range.each_slice(7) do |week| %>
+      <tr>
+        <% week.each do |day| %>
+          <%= content_tag :td, class: [calendar.td_classes_for(day), local_assigns[:td_class]&.call(day)] do %>
+            <% instance_exec(day, calendar.sorted_events_for(day), &passed_block) %>
+          <% end %>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

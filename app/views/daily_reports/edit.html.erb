@@ -1,0 +1,8 @@
+<% content_for :title, "日報を編集 | ひとめ日報" %>
+
+<div class="form-box">
+  <h1 class="page-title"><span class="icon icon-pencil" aria-hidden="true"></span>日報を編集</h1>
+  <p class="page-lead"><%= current_user.name %> さん、下書きの続きを書いて提出してください。</p>
+
+  <%= render "form", daily_report: @daily_report %>
+</div>

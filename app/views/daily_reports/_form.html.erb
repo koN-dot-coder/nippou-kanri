@@ -1,0 +1,65 @@
+<%= form_with model: daily_report, class: "report-form" do |f| %>
+  <% if daily_report.errors.any? %>
+    <div class="flash flash-alert form-errors">
+      <p><span class="icon icon-alert" aria-hidden="true"></span>入力内容を確認してください</p>
+      <ul>
+        <% daily_report.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-field">
+    <%= f.label :report_date do %>
+      <span class="icon icon-calendar" aria-hidden="true"></span>日付
+    <% end %>
+    <%= f.date_field :report_date %>
+  </div>
+
+  <div class="form-field">
+    <%= f.label :done do %>
+      <span class="icon icon-check" aria-hidden="true"></span>今日やったこと
+      <span class="field-hint">箇条書きでOKです</span>
+    <% end %>
+    <%= f.text_area :done, placeholder: "例：新人研修の2日目を担当" %>
+  </div>
+
+  <div class="form-field">
+    <%= f.label :trouble do %>
+      <span class="icon icon-trouble" aria-hidden="true"></span>困っていること（任意）
+      <span class="field-hint">なければ空のままでOKです</span>
+    <% end %>
+    <%= f.text_area :trouble, placeholder: "例：研修資料の更新が追いついていない" %>
+  </div>
+
+  <div class="form-field">
+    <%= f.label :plan do %>
+      <span class="icon icon-next" aria-hidden="true"></span>明日やること
+    <% end %>
+    <%= f.text_area :plan, placeholder: "例：ふりかえりアンケートの集計" %>
+  </div>
+
+  <fieldset class="form-field condition-field">
+    <legend>
+      <span class="icon icon-mood" aria-hidden="true"></span>調子
+      <span class="field-hint">1：よくない ／ 5：とてもよい</span>
+    </legend>
+    <div class="condition-options">
+      <% (1..5).each do |n| %>
+        <%= f.label "condition_#{n}" do %>
+          <%= f.radio_button :condition, n %><%= n %>
+        <% end %>
+      <% end %>
+    </div>
+  </fieldset>
+
+  <div class="form-actions">
+    <%= f.button type: "submit", class: "button" do %>
+      <span class="icon icon-send" aria-hidden="true"></span>提出する
+    <% end %>
+    <%= f.button type: "submit", name: "draft", value: "1", class: "button button-outline" do %>
+      下書き保存
+    <% end %>
+  </div>
+<% end %>
