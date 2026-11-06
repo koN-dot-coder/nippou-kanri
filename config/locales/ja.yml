@@ -11,3 +11,9 @@ ja:
         condition: 調子
       user:
         email: メールアドレス  
+    errors:
+      models:
+        daily_report:
+          attributes:
+            condition:
+              blank: を選んでください
