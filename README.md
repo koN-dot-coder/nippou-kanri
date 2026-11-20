@@ -207,7 +207,7 @@ MVPでは `teams` / `users` / `daily_reports` の3テーブルだけを作る。
 
 | 分類 | 技術 |
 | --- | --- |
-| 言語・フレームワーク | Ruby 3.3 / Ruby on Rails 7.2 |
+| 言語・フレームワーク | Ruby 3.3.14 / Ruby on Rails 7.2 |
 | DB | PostgreSQL 16（本番は Neon でホスティング） |
 | 開発環境 | Docker Compose |
 | デプロイ | Render |
